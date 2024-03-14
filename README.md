@@ -50,23 +50,88 @@ Confirm duplicates are dropped
 
 
 ## Analysis
-1. Group by drug regimen 
-2. Get statistic on Tumor Volume (mean,median, variance, standard deviation, standard error mean)
-3. Export stats to ne df
-4. Alternate statistical method - aggregation
+Use groupby and summary statistical methods to calculate the following properties of each drug regimen: 
+#mean, median, variance, standard deviation, and SEM of the tumor volume. 
+
+    gr_drug = cl_mouse_df.groupby(["Drug Regimen"])
+    gr_drug_mean = gr_drug["Tumor Volume (mm3)"].mean()
+    gr_drug_mean = gr_drug["Tumor Volume (mm3)"].mean()
+    gr_drug_median = gr_drug["Tumor Volume (mm3)"].median()
+    gr_drug_var = gr_drug["Tumor Volume (mm3)"].var()
+    gr_drug_std = gr_drug["Tumor Volume (mm3)"].std()
+    gr_drug_sem = gr_drug["Tumor Volume (mm3)"].sem()
+
+Assemble the resulting series into a single summary DataFrame. 
+
+    gr_drug_df = pd.DataFrame({ "Mean Tumor Volume" : gr_drug_mean, 
+                                "Median Tumor Volume" : gr_drug_median,
+                                "Tumor Volume Variance" : gr_drug_var, 
+                                "Tumor Volume Std. Dev." : gr_drug_std, 
+                                "Tumor Volume Std. Err." : gr_drug_sem})
+
+Alternate statistical method - aggregation produces summary statistics in a single line
+
+    gr_drug_agg_df = cl_mouse_df[["Drug Regimen", "Tumor Volume (mm3)"]].groupby(["Drug Regimen"]).agg(["mean", "median", "var", "std", "sem"])
+
 ## Results
-### bar plots
-1. list drugs
-2. list timepoints
-3. value count of drug regimen
+### Bar plots
+#### **List drugs**
 
+![](Pymaceuticals/images/list_drugs.png)
 
-4. Bar plot of Time points vs Drug regimen using Pandas
-5. Bar plot of Time points vs Drug regimen using pylot
+#### **List timepoints**
+
+![](Pymaceuticals/images/list_timepoints.png)
+
+#### **Value count of drug regimen**
+
+![](Pymaceuticals/images/list_drug_regimen.png)
+
+Bar plot of Time points vs Drug regimen using Pandas
+
+    cl_mouse_df.groupby(["Drug Regimen"])["Timepoint"].count().reset_index(name="Timepoint").plot.bar(x="Drug Regimen",y="Timepoint",legend=False)
+    plt.ylabel("# of Observed Mouse Timepoints")
+
+ ![](Pymaceuticals/images/pandas_drugs.png)
+
+Bar plot of Time points vs Drug regimen using pylot
+
+    plot = cl_mouse_df.groupby(["Drug Regimen"])["Timepoint"].count().reset_index(name="Timepoint")
+    tm_pt = plot["Timepoint"]
+    x_axis = np.arange(len(tm_pt))
+    dr_reg = plot["Drug Regimen"]
+
+    plt.bar(x_axis,tm_pt,color="b")
+    tick_locations = [x for x in x_axis]
+    plt.xticks(tick_locations,dr_reg)
+    #labels
+    plt.xlabel("Drug Regimen")
+    plt.ylabel("# of Observed Mouse Timepoints")
+    plt.xticks(rotation="vertical")
+
+ ![](Pymaceuticals/images/pyplot_drugs.png)
+
 ### Pie plots
-6. value count of sex
-7. Pie plot mouse ID vs sex using pandas
-8. Pie plot mouse ID vs sex using pyplot
+#### **Value count of sex**
+
+ ![](Pymaceuticals/images/sex_count.png)
+
+Pie plot mouse ID vs sex using pandas
+
+    cl_mouse_df.groupby(["Sex"])["Mouse ID"].count().plot.pie(y=["Sex"], label="",autopct="%1.1f%%")
+    plt.ylabel("Sex")
+
+ ![](Pymaceuticals/images/pandas_sex.png)
+
+Pie plot mouse ID vs sex using pyplot
+
+    pie_plot = cl_mouse_df.groupby(["Sex"])["Mouse ID"].count().reset_index(name = "Sex - Mouse ID")
+    sx = pie_plot["Sex"]
+    Count = pie_plot["Sex - Mouse ID"]
+    plt.pie(Count, labels = sx, autopct = "%1.1f%%")
+    plt.ylabel("Sex")
+
+![](Pymaceuticals/images/pyplot_sex.png)
 
 ### Quartiles, Outliers, and boxplots
 9. create df for all drug regimens
