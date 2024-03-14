@@ -4,7 +4,7 @@
 ## Introduction
 In the most recent animal study, 249 mice identified with squamous cell carcinoma (SCC) tumors were subjected to various drug regimens, with a primary focus on evaluating the efficacy of Pymaceuticals' leading drug, Capomulin. Over the span of 45 days, the development and measurement of tumor progression were meticulously observed. The objective of this comprehensive study was to assess the performance of Capomulin in comparison to other treatment regimens, providing valuable insights that can shape the future of anti-cancer medications.
 
-This analysis uses statistical methods gain insight about each drugs performance. Quartiles, outliers, boxplots
+This analysis uses statistical methods gain insight about each drug's performance. 
 
 ## Imports
     # Dependencies and Setup
@@ -50,8 +50,7 @@ Confirm duplicates are dropped
 
 
 ## Analysis
-Use groupby and summary statistical methods to calculate the following properties of each drug regimen: 
-#mean, median, variance, standard deviation, and SEM of the tumor volume. 
+Use groupby and summary statistical methods to calculate the following properties of each drug regimen: mean, median, variance, standard deviation, and SEM of the tumor volume. 
 
     gr_drug = cl_mouse_df.groupby(["Drug Regimen"])
     gr_drug_mean = gr_drug["Tumor Volume (mm3)"].mean()
@@ -87,14 +86,14 @@ Alternate statistical method - aggregation produces summary statistics in a sing
 
 ![](Pymaceuticals/images/list_drug_regimen.png)
 
-Bar plot of Time points vs Drug regimen using Pandas
+Bar plot of Timepoints vs Drug regimen using Pandas
 
     cl_mouse_df.groupby(["Drug Regimen"])["Timepoint"].count().reset_index(name="Timepoint").plot.bar(x="Drug Regimen",y="Timepoint",legend=False)
     plt.ylabel("# of Observed Mouse Timepoints")
 
  ![](Pymaceuticals/images/pandas_drugs.png)
 
-Bar plot of Time points vs Drug regimen using pylot
+Bar plot of Timepoints vs Drug regimen using pylot
 
     plot = cl_mouse_df.groupby(["Drug Regimen"])["Timepoint"].count().reset_index(name="Timepoint")
     tm_pt = plot["Timepoint"]
@@ -116,14 +115,14 @@ Bar plot of Time points vs Drug regimen using pylot
 
  ![](Pymaceuticals/images/sex_count.png)
 
-Pie plot mouse ID vs sex using pandas
+Pie plot of mouse ID vs sex using pandas
 
     cl_mouse_df.groupby(["Sex"])["Mouse ID"].count().plot.pie(y=["Sex"], label="",autopct="%1.1f%%")
     plt.ylabel("Sex")
 
  ![](Pymaceuticals/images/pandas_sex.png)
 
-Pie plot mouse ID vs sex using pyplot
+Pie plot of mouse ID vs sex using pyplot
 
     pie_plot = cl_mouse_df.groupby(["Sex"])["Mouse ID"].count().reset_index(name = "Sex - Mouse ID")
     sx = pie_plot["Sex"]
@@ -142,7 +141,7 @@ Create df for all drug regimens
     Ceftamin = cl_mouse_df.loc[cl_mouse_df["Drug Regimen"] == "Ceftamin", : ]
 
 
-Concatenate the treatment df
+Concatenate in treatment df
 
     treatments = [Capomulin, Ramicane, Infubinol, Ceftamin]
     trt_df = pd.concat(treatments)
@@ -169,11 +168,11 @@ Create summary df
 
 ![](Pymaceuticals/images/summary_drugs_length.png)
 
-Use list comprehension with summary to analyze tumor volume per drug regimen and for outlier
+Use list comprehension with summary to analyze tumor volume per drug regimen and for outliers
 
 ![](Pymaceuticals/images/quartile_list_comp.png)
 
-Generate boxplot for treatments and outlier
+Generate boxplot for treatments and outliers
 
     plt.boxplot(tumor_vol_data, labels = trx_list, flierprops={'marker': 'o', 
                                                             'markersize': 10, 
@@ -220,7 +219,7 @@ Generate correlation coefficient and linear regression model by plotting
 
 ## Conclusion
 
-When analysizing the data, a several observations were made. First, the drugs Capomulin and Ramicane had over 200 observed timepoint, while the rest of the drugs tested were below this threshold. Second, the sex of the mice used were close to equal: 51% male and 49% female. Third, using the interquartile range, it was determined that there was only 1 observation of an outlier which was within the drug Infubinol category. Fourth, mouse b128 showed a consistent decrease in tumor volume throughout the timepoint observations. Lastly, using the correlation coefficient and linear regression, the correlation coefficient is 0.84, which means there is a strong relationship between the mouse weight and the average tumor size. 
+When analysizing the data, several observations were made. First, the drugs Capomulin and Ramicane had over 200 observed timepoint, while the rest of the drugs tested were below this threshold. Second, the sex of the mice were almost equal: 51% male and 49% female. Third, using the interquartile range, it was determined that there was only one observation of an outlier which was within the drug Infubinol category. Fourth, mouse b128 showed a consistent decrease in tumor volume throughout the timepoint observations. Lastly, using the correlation coefficient and linear regression, the correlation coefficient is 0.84, which means there is a strong relationship between the mouse weight and the average tumor size in the Capomulin drug group. 
 
 ## Resources
 
