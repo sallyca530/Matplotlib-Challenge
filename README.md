@@ -134,21 +134,89 @@ Pie plot mouse ID vs sex using pyplot
 ![](Pymaceuticals/images/pyplot_sex.png)
 
 ### Quartiles, Outliers, and boxplots
-9. create df for all drug regimens
-10. concatenate the treatment df
-11. find the last timepoint for each mouse into df
-12. merge treatment df and mouse timepoint df
-13. filter using a boolean for the last time == 'true'
-13. create summary df
-14. use list comprehension with summary to analyze tumor volume per drug regimen and for outlier
-15. generate boxplot for treatments and outlier
+Create df for all drug regimens
+
+    Capomulin = cl_mouse_df.loc[cl_mouse_df["Drug Regimen"] == "Capomulin", : ]
+    Ramicane = cl_mouse_df.loc[cl_mouse_df["Drug Regimen"] == "Ramicane", : ]
+    Infubinol = cl_mouse_df.loc[cl_mouse_df["Drug Regimen"] == "Infubinol", : ]
+    Ceftamin = cl_mouse_df.loc[cl_mouse_df["Drug Regimen"] == "Ceftamin", : ]
+
+
+Concatenate the treatment df
+
+    treatments = [Capomulin, Ramicane, Infubinol, Ceftamin]
+    trt_df = pd.concat(treatments)
+
+Find the last timepoint for each mouse into df
+
+    gr_ID = cl_mouse_df.groupby(["Mouse ID"])
+    last_tp = gr_ID["Timepoint"].max()
+    last_tp.head()
+
+Merge treatment df and mouse timepoint df
+
+    mg_trt_lt = pd.merge(trt_df, last_tp, on = "Mouse ID")  
+
+Filter using a boolean for the last time == 'true'
+
+    mg_trt_lt["Last Time"] = mg_trt_lt["Timepoint_x"] == mg_trt_lt["Timepoint_y"]
+    mg_trt_lt.head()
+    mg_trt_lt.drop(mg_trt_lt.loc[mg_trt_lt["Last Time"] == False].index , inplace = True)
+    mg_trt_lt
+
+
+Create summary df
+
+![](Pymaceuticals/images/summary_drugs_length.png)
+
+Use list comprehension with summary to analyze tumor volume per drug regimen and for outlier
+
+![](Pymaceuticals/images/quartile_list_comp.png)
+
+Generate boxplot for treatments and outlier
+
+    plt.boxplot(tumor_vol_data, labels = trx_list, flierprops={'marker': 'o', 
+                                                            'markersize': 10, 
+                                                            'markerfacecolor': 'red'})
+    plt.ylabel("Final Tumor Volume (mm3)")
+
+![](Pymaceuticals/images/drug_box_plot.png)
+
 ### Line and scatter plot
-16. create line plot using a single mouse (b128) to identify tumor size ve timepoint
-17. generate scatter plot of mouse weight vs average observed tumor
+Create line plot using a single mouse (b128) to identify tumor size ve timepoint
+
+    b128_mouse = cl_mouse_df.loc[cl_mouse_df["Mouse ID"] == "b128", : ]
+    x_axis = b128_mouse["Timepoint"]
+    y_axis = b128_mouse["Tumor Volume (mm3)"]
+    plt.title("Capomulin treatment of mouse b128")
+    plt.plot(x_axis, y_axis, color= "blue")
+    plt.xlabel("Timepoint (days)")
+    plt.ylabel("Tumor Volume (mm3)")
+
+![](Pymaceuticals/images/b128_line_plot.png)
+
+Generate scatter plot of mouse weight vs average observed tumor
+
+    #gather all mice with Capomulin treatment
+    mouse_cap = cl_mouse_df.loc[cl_mouse_df["Drug Regimen"] == "Capomulin", : ]
+    #average individual mouse weights
+    mouse_ID = mouse_cap.groupby("Mouse ID")
+    #weight with Capomulin treatment
+    weight = mouse_ID["Weight (g)"].mean()
+    av_tumor_vol = mouse_ID["Tumor Volume (mm3)"].mean()
+
+    plt.scatter(weight,av_tumor_vol)
+    plt.xlabel('Weight (g)')
+    plt.ylabel('Average Tumor Volume (mm3)')
+    plt.show()
+
+![](Pymaceuticals/images/scatter_mouse_weight_vol.png)
+
 ### Correlation and Linear Regression
-18. generate correlation coefficient and linear regression model by plotting
+Generate correlation coefficient and linear regression model by plotting
 
-
+![](Pymaceuticals/images/correlation_coeff.png)
+![](Pymaceuticals/images/linear_regression.png)
 
 ## Conclusion
 
