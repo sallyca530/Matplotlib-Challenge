@@ -14,14 +14,44 @@ This analysis uses statistical methods gain insight about each drugs performance
     from scipy.stats import linregress
     import numpy as np
 ## ETL 
-1. load data and read cvs to dfs
-2. merge
-3. check number of mice
-4. Drop duplicates/ confirm
+Study data files
+
+    mouse_metadata_path = "../data/Mouse_metadata.csv"
+    study_results_path = "../data/Study_results.csv"
+
+Read the mouse data and the study results
+    
+    mouse_metadata = pd.read_csv(mouse_metadata_path)
+    study_results = pd.read_csv(study_results_path)
+
+Combine the data into a single DataFrame
+    
+    tumor_df = pd.merge(study_results, mouse_metadata, how="left", on=["Mouse ID", "Mouse ID"])
+
+Display the data table for preview
+
+    tumor_df.head()
+
+Check number of mice
+
+![](Pymaceuticals/images/check_mouse_count.png)
+
+Drop duplicates and confirm
+    
+    mouse_dup = tumor_df.loc[tumor_df.duplicated(subset=["Mouse ID", "Timepoint"]), "Mouse ID"].unique()
+
+    Output: array(['g989'], dtype=object)
+
+    cl_mouse_df = tumor_df[tumor_df["Mouse ID"] != "g989"]
+
+Confirm duplicates are dropped
+
+![](Pymaceuticals/images/clean_mouse_count.png)
+
 
 ## Analysis
 1. Group by drug regimen 
-2. Get statistic on Tumor Volume (mean,median, variacnce, standard deviation, standard error mean)
+2. Get statistic on Tumor Volume (mean,median, variance, standard deviation, standard error mean)
 3. Export stats to ne df
 4. Alternate statistical method - aggregation
 ## Results
