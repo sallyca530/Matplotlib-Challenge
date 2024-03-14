@@ -183,7 +183,7 @@ Generate boxplot for treatments and outlier
 ![](Pymaceuticals/images/drug_box_plot.png)
 
 ### Line and scatter plot
-Create line plot using a single mouse (b128) to identify tumor size ve timepoint
+Create line plot using a single mouse (b128) to identify tumor size vs timepoint
 
     b128_mouse = cl_mouse_df.loc[cl_mouse_df["Mouse ID"] == "b128", : ]
     x_axis = b128_mouse["Timepoint"]
@@ -220,6 +220,7 @@ Generate correlation coefficient and linear regression model by plotting
 
 ## Conclusion
 
+When analysizing the data, a several observations were made. First, the drugs Capomulin and Ramicane had over 200 observed timepoint, while the rest of the drugs tested were below this threshold. Second, the sex of the mice used were close to equal: 51% male and 49% female. Third, using the interquartile range, it was determined that there was only 1 observation of an outlier which was within the drug Infubinol category. Fourth, mouse b128 showed a consistent decrease in tumor volume throughout the timepoint observations. Lastly, using the correlation coefficient and linear regression, the correlation coefficient is 0.84, which means there is a strong relationship between the mouse weight and the average tumor size. 
 
 ## Resources
 
