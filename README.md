@@ -223,10 +223,10 @@ When analysizing the data, several observations were made. First, the drugs Capo
 
 ## Resources
 
- Find Mouse ID duplicates - How do I get a list of all the duplicate items using pandas in python? (Feb 20, 2013). StackOverflow. Website. URL. https://stackoverflow.com/questions/14657241/how-do-i-get-a-list-of-all-the-duplicate-items-using-pandas-in-python
+#### Find Mouse ID duplicates - How do I get a list of all the duplicate items using pandas in python? (Feb 20, 2013). StackOverflow. Website. URL. https://stackoverflow.com/questions/14657241/how-do-i-get-a-list-of-all-the-duplicate-items-using-pandas-in-python
 
 
- Grouping to find duplicate columns - Grouping by multiple columns to find duplicate rows pandas. (Oct 9, 2017). StackOverflow. Website. URL https://stackoverflow.com/questions/46640945/grouping-by-multiple-columns-to-find-duplicate-rows-pandas
+#### Grouping to find duplicate columns - Grouping by multiple columns to find duplicate rows pandas. (Oct 9, 2017). StackOverflow. Website. URL https://stackoverflow.com/questions/46640945/grouping-by-multiple-columns-to-find-duplicate-rows-pandas
 
 #### Not equal filtering- Pandas: Filter by Column Not Equal to Specific Values. (Feb 10, 2023). Statology. Website. URL https://www.statology.org/pandas-filter-by-column-value-not-equal/#:~:text=Note%3A%20The%20symbol%20!%3D,%E2%80%9Cnot%20equal%E2%80%9D%20in%20pandas.
 
